@@ -42,7 +42,7 @@ fn main() {
                     main(); // Restart the game
                 } else {
                     println!("Thanks for playing!");
-                    break; // Exit the loop and end the game
+                    std::process::exit(0); // Exit the loop and end the game
                 }
             }
         }
