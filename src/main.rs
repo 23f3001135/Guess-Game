@@ -6,8 +6,10 @@ fn main() {
     println!("Guess the number!");
     
     let secret_number: u32 = rand::rng().random_range(1..=100);
-    println!("The secret number is: {}", secret_number);
+    // println!("The secret number is: {}", secret_number);
+    let mut number_of_guesses: u32 = 0;
     loop {
+
         println!("Input your guess: ");
         let mut guess: String = String::new();
 
@@ -17,6 +19,7 @@ fn main() {
 
         let guess: u32 = guess.trim().parse().expect("Please type a valid number!");
         println!("You guessed: {}", guess);
+        number_of_guesses += 1;
         
         
         match guess.cmp(&secret_number) {
@@ -24,9 +27,24 @@ fn main() {
             Ordering::Greater => println!("Too big!"),
             Ordering::Equal => {
                 println!("Perfect! You guessed the number!");
-                break;
+                println!("You took {} guesses.", number_of_guesses);
+                if number_of_guesses <= 5 {
+                    println!("You are a pro!");
+                } else if number_of_guesses <= 10 {
+                    println!("You did well!");
+                } else {
+                    println!("You can do better!");
+                }
+                println!("Challenge, do it in less than 5 guesses next time! Wanna try? (y/n)");
+                let mut answer:String = String::new();
+                io::stdin().read_line(&mut answer).expect("Sorry, Pls enter y for yes or n for no");
+                if answer.trim().to_lowercase() == "y" {
+                    main(); // Restart the game
+                } else {
+                    println!("Thanks for playing!");
+                    break; // Exit the loop and end the game
+                }
             }
-            _ => println!("Something went wrong!"),
         }
     }
 }
